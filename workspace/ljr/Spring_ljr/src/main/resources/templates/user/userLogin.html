@@ -20,11 +20,12 @@
 
             <label>비밀번호</label>
             <input type="password" th:field="*{password}" placeholder="비밀번호 입력">
-
             <p th:if="${loginError}" th:text="${loginError}" class="error-global"></p>
-
             <button type="submit" class="btn-login">로그인</button>
         </form>
+        <div class="signup-link">
+            <a th:href="@{/join}">회원가입</a><span>|</span><a href="#">아이디/비밀번호 찾기</a>
+        </div>
 
     </div>
 </div>

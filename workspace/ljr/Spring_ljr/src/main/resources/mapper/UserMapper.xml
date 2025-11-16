@@ -21,27 +21,11 @@
         <selectKey keyProperty="userId" resultType="long" order="BEFORE">
             SELECT USERS_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-
         INSERT INTO USERS (
-        USER_ID,
-        EMAIL,
-        PASSWORD,
-        NICKNAME,
-        HEIGHT,
-        CURRENT_WEIGHT,
-        MAIN_GOAL,
-        PROFILE_IMAGE_URL
-        ) VALUES (
-        #{userId},
-        #{email},
-        #{password},
-        #{nickname},
-        #{height},
-        #{currentWeight},
-        #{mainGoal},
-        #{profileImageUrl}
-        )
-
+        USER_ID, EMAIL, PASSWORD, NICKNAME, HEIGHT, CURRENT_WEIGHT, MAIN_GOAL,
+        PROFILE_IMAGE_URL, BIRTHDATE, AGE, GENDER )
+        VALUES ( #{userId}, #{email}, #{password}, #{nickname}, #{height}, #{currentWeight},
+        #{mainGoal}, #{profileImageUrl}, TO_DATE(#{birthdate}, 'YYYY-MM-DD'), #{age}, #{gender} )
     </insert>
 
     <!-- 이메일로 조회 -->

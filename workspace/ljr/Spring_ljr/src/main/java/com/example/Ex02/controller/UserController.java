@@ -78,6 +78,7 @@ public class UserController {
         return "survey/surveyForm";   // templates/survey/surveyForm.html
     }
 
+    // 설문지 결과
     @PostMapping("/survey/submit")
     public String submitSurvey(@Valid @ModelAttribute("surveyDto") SurveyDto surveyDto,
                                BindingResult bindingResult,
@@ -99,7 +100,13 @@ public class UserController {
         // 설문지 점수계산
         surveyService.evaluateSurvey(surveyDto);
         // 결과 페이지로 전달
+        UserJoinDto user = userMapper.findById(userId);
+        model.addAttribute("nickname", user.getNickname());
         model.addAttribute("result", surveyDto);
+
+        String dietType = surveyService.getDietType(surveyDto);
+        session.setAttribute("dietType", dietType);
+        model.addAttribute("dietType", dietType);
 
         return "survey/surveyResult";
     }
@@ -156,6 +163,31 @@ public class UserController {
         UserJoinDto user = userMapper.findById(userId);
         model.addAttribute("user", user);
 
+        // 세션에 저장된 식단유형을 모델에 추가
+        String dietType = (String) session.getAttribute("dietType");
+        model.addAttribute("dietType", dietType);
+
         return "user/myPage";
+    }
+
+    @GetMapping("/profile/edit")
+    public String editProfilePage(HttpSession session, Model model) {
+
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        UserJoinDto user = userMapper.findById(userId);
+        model.addAttribute("user", user);
+
+        return "user/profileEdit";   // ← templates/user/profileEdit.html 로 이동
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();   // 세션 전체 삭제
+        return "redirect:/login";
     }
 }

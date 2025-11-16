@@ -17,10 +17,10 @@ body {
 }
 
 /* ================================
-   회원가입 카드 (로그인과 동일)
+   회원가입 카드
 ================================ */
 .signup-container {
-    width: 420px;
+    width: 600px;
     background: #ffffff;
     padding: 50px 40px;
     border-radius: 14px;
@@ -29,7 +29,7 @@ body {
 
 /* 제목 */
 .signup-container h1 {
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 700;
     color: #111;
     text-align: center;
@@ -37,7 +37,7 @@ body {
 }
 
 /* ================================
-   폼 구성 요소
+   label + 기본 input
 ================================ */
 label {
     font-size: 14px;
@@ -47,16 +47,21 @@ label {
     display: block;
 }
 
-/* 공통 input + select */
+.form-row {
+    position: relative;
+    margin-bottom: 35px;
+}
+
+/* 공통 input */
 input[type="text"],
 input[type="password"],
 input[type="number"],
+input[type="date"],
 select {
     width: 100%;
-    height: 44px;
-    margin-bottom: 18px;
-    padding: 0 12px;
-    font-size: 14px;
+    height: 46px;
+    padding: 0 14px;
+    font-size: 15px;
     border-radius: 8px;
     border: 1px solid #dcdcdc;
     outline: none;
@@ -64,83 +69,142 @@ select {
 }
 
 input:focus,
-select:focus {
+select:focus,
+input[type="date"]:focus {
     border-color: #1ABC9C;
     box-shadow: 0 0 0 3px rgba(26,188,156,0.2);
 }
 
 /* ================================
+   에러 메시지 - input이 밀리지 않도록 absolute 처리
+================================ */
+.error,
+.row-error {
+    position: absolute;
+    bottom: -16px;
+    left: 4px;
+    font-size: 13px;
+    color: #E74C3C;
+    white-space: nowrap;
+}
+
+/* ================================
    이메일 입력 행
+================================ */
+/* ================================
+   이메일 입력 행 (비율 재조정)
 ================================ */
 .email-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
+    width: 100%;
 }
 
-/* @ 표시 */
+#emailId {
+    flex: 3.2;     /* 입력창 더 넓게 */
+    height: 46px;
+}
+
 .email-row span {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: #444;
 }
 
-/* select 크기 조정 */
-.email-row select {
-    width: 140px;
+#emailDomain {
+    flex: 2.4;     /* 도메인 select 넓힘 */
+    height: 46px;
+    min-width: 150px; /* 줄어드는 문제 방지 */
 }
 
-/* 중복확인 버튼 */
 .btn-email {
-    padding: 0 16px;
-    height: 44px;
+    flex-shrink: 0;
+    width: 120px;   /* 버튼도 비율에 맞춰 조금 확대 */
+    height: 46px;
     background: #1ABC9C;
     color: #fff;
     border: none;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 15px;
     cursor: pointer;
     font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-email:hover {
     opacity: 0.9;
 }
 
-/* 오류 메시지 */
-.row-error,
-.error {
-    font-size: 13px;
-    color: #d9534f;
-    margin-top: -14px;
-    margin-bottom: 10px;
-}
-
 /* ================================
-   라디오 버튼
+   성별/목표 네모 버튼 UI (두 개/세 개 모두 균등)
 ================================ */
-input[type="radio"] {
-    margin-right: 6px;
-    transform: scale(1.15);
-}
-
-.radio-group {
-    margin-bottom: 18px;
-}
-
-/* ================================
-   회원가입 버튼 (로그인과 동일)
-================================ */
-button[type="submit"],
-.btn-join {
+.select-box-group {
+    display: flex;
     width: 100%;
-    height: 46px;
+    gap: 14px;
+    margin-bottom: 35px;
+}
+
+.select-box {
+    flex: 1 1 0;
+    height: 48px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    background: #fafafa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: 0.2s ease;
+    font-weight: 600;
+    padding: 0;
+}
+
+.select-box input[type="radio"] {
+    display: none;
+}
+
+.select-box span {
+    font-size: 15px;
+    color: #333;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* 선택됨 */
+.select-box input[type="radio"]:checked + span {
+    color: white;
+}
+
+.select-box input[type="radio"]:checked + span::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #1ABC9C;
+    border-radius: 8px;
+    z-index: -1;
+}
+
+.select-box:hover {
+    border-color: #1ABC9C;
+}
+
+/* ================================
+   회원가입 버튼
+================================ */
+button[type="submit"] {
+    width: 100%;
+    height: 48px;
     margin-top: 10px;
     background: #1ABC9C;
     border: none;
     border-radius: 8px;
     color: white;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     cursor: pointer;
 }
@@ -150,21 +214,27 @@ button[type="submit"]:hover {
 }
 
 /* ================================
-   반응형
+   생년월일 + 나이 2칸 구조
 ================================ */
-@media (max-width: 480px) {
-    .signup-container {
-        width: 90%;
-        padding: 35px 25px;
-    }
-
-    .email-row {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .email-row select,
-    .btn-email {
-        width: 100%;
-    }
+.row-2col {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
 }
+
+.half-box {
+    flex: 1;
+    position: relative;
+}
+
+.half-box input {
+    width: 100%;
+}
+
+/* 에러 메시지가 칸 아래 고정되도록 */
+.half-box .error {
+    position: absolute;
+    bottom: -18px;
+    left: 4px;
+}
+
