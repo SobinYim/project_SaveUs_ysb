@@ -223,6 +223,9 @@ public class UserController {
         }
 
         userMapper.updateUser(userDto);
+        UserJoinDto updatedUser = userMapper.findById(userId);
+        session.setAttribute("loginUser", updatedUser);
+
         return "redirect:/my-page";
     }
 
